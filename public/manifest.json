@@ -1,19 +1,20 @@
 {
-  "name": "kuldeep1a.docs",
-  "short_name": "docx",
-  "icons": [
-      {
-          "src": "/image-icon/android-chrome-192x192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-      },
-      {
-          "src": "/image-icon/android-chrome-192x192.png",
-          "sizes": "512x512",
-          "type": "image/png"
-      }
-  ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+    "name": "kuldeep1a.docs",
+    "short_name": "docx",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#54e27c",
+    "background_color": "#bccac0",
+    "icons": [
+        {
+            "src": "/image-icon/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/image-icon/android-chrome-192x192.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
