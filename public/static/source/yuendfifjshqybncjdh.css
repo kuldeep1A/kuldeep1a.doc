@@ -5,6 +5,10 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    #root {
+        touch-action: manipulation !important;
+    }
 }
 
 code {
@@ -32,7 +36,7 @@ a {
     width: 10%;
     border-right: 1px solid black;
     color: #bccac0;
-    
+
 }
 
 .doc-pages {
@@ -61,8 +65,10 @@ a {
     border-left: 1px solid black;
     padding-left: 50px;
 
-    div {
-        margin-top: 30px;
+    .submit>div {
+        margin-top: 4px;
+        display: flex;
+        flex-direction: row;
     }
 }
 
