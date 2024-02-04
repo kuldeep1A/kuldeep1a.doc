@@ -38,9 +38,11 @@ export default function Navigation() {
         <div className="main">
             <div className="nav">
                 <div className="nav-docs">
-                    {isHome ? <></> : <Link to="/"><h1>Docx</h1></Link>}
-                    <div className="nav-icon"><img src="./image-icon/docs.svg" alt="home" /></div>
+
+                    <div className="nav-icon">
+                        <img src="./image-icon/docs.svg" alt="home" /></div>
                     <div className="doc-pages">
+                        <span >{isHome ? <></> : <Link to="/"><h1>Docx</h1></Link>}</span>
                         <div>
                             <ul>
                                 {Array.from({ length: pages }, (_, index) => (
@@ -49,13 +51,15 @@ export default function Navigation() {
                             </ul>
                         </div>
                     </div>
-                    <div className="doc-uploads">
-                        <div className="submit">
-                            <div><label htmlFor="linkIframe">Publish Link</label></div>
-                            <div><input type="text" title="Link" id="linkIframe" value={iframeLink} required onChange={(e) => setIframeLink(e.target.value)} placeholder="Publish Link" /></div>
-                            <div><input type="submit" onClick={handleClick} /></div>
+                    {
+                        !isHome ? <></> : <div className="doc-uploads">
+                            <div className="submit">
+                                <div><label htmlFor="linkIframe">Publish Link</label></div>
+                                <div><input type="text" title="Link" id="linkIframe" value={iframeLink} required onChange={(e) => setIframeLink(e.target.value)} placeholder="Publish Link" /></div>
+                                <div><input type="submit" onClick={handleClick} /></div>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div >
                 <hr />
             </div>
