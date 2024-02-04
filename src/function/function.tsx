@@ -1,26 +1,72 @@
 import { updateDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+export const fetchComID = async (): Promise<string> => {
+    const comIdC = "ComID";
+    let currID = ''
+    try {
+        const countRef = doc(db, comIdC, "f1YR38DoE8lUbJqa3MaC")
+        currID = (await getDoc(countRef)).get("com-c-id")
+    } catch (error) {
+        console.error("Fetch id errro: ", error)
+    }
+    return currID
+}
+
+export const addComId = async (_id: string): Promise<void> => {
+    const comIdC = "ComID";
+    try {
+        const countRef = doc(db, comIdC, "f1YR38DoE8lUbJqa3MaC")
+        await updateDoc(countRef, { "com-c-id": _id })
+    } catch (error) {
+        console.error("add errro: ", error)
+    }
+}
+
+export const pageCount = async (): Promise<number> => {
+    let currCount = 0
+    const countCollection = "IframesCounts"
+    try {
+        const countRef = doc(db, countCollection, "hEedHPYfprSp0rO4PtZW")
+        currCount = (await getDoc(countRef)).get("count")
+
+    } catch (error) {
+        console.error("Fetch count errro: ", error)
+    }
+    return currCount;
+}
+
+export const fetchLink = async (_page_id: string): Promise<string> => {
+    let link = ''
+    const mainCollection = "Iframes";
+    try {
+        const linkRef = doc(db, mainCollection, `${_page_id}`)
+        link = (await getDoc(linkRef)).get("link")
+    } catch (error) {
+        console.error("fetch link error: ", error)
+    }
+    return link
+}
+
 export const addedLink = async (_link: any): Promise<void> => {
     const _date = new Date().toLocaleDateString();
     const _time = new Date().toLocaleTimeString();
     const mainCollection = "Iframes";
-    const countCollection = "IframesCounts"
     try {
         const response = await fetch(_link);
-        if (response.ok) {
-            const countRef = doc(db, countCollection, "hEedHPYfprSp0rO4PtZW")
-            const currCount = (await getDoc(countRef)).get("count")
-            const newCount = currCount + 1
-            await updateDoc(countRef, { count: newCount })
+        if (response.ok && _link !== "") {
+            const currCount = await pageCount()
             const _data = {
                 link: _link,
-                page: `p${newCount}`,
+                pageId: `p-xe-w3-k1-db-${currCount + 1}`,
                 date: _date,
                 time: _time,
                 owner: "kuldeep"
             }
-            const documentPath = `${mainCollection}/page${newCount}`;
+            const countCollection = "IframesCounts"
+            const documentPath = `${mainCollection}/p-xe-w3-k1-db-${currCount + 1}`;
             const mainCollectionRef = doc(db, documentPath);
+            const countRef = doc(db, countCollection, "hEedHPYfprSp0rO4PtZW")
+            await updateDoc(countRef, { count: currCount + 1 })
             await setDoc(mainCollectionRef, _data, { merge: false });
             window.location.reload();
         }
@@ -28,3 +74,4 @@ export const addedLink = async (_link: any): Promise<void> => {
         console.error("Error adding document: ", e);
     }
 }
+

@@ -1,19 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Home from './pages/home';
 import Navigation from "./component/navigation"
-import P1 from './pages/p-1-docs'
-import P2 from './pages/p-2-docs'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
+import { fetchComID } from './function/function';
+import { ComDcos } from './pages/comdocs';
 function App() {
+  const [cmoId, setComId] = useState('');
+
+  useEffect(() => {
+    const fetch = async () => {
+      const _id = await fetchComID();
+      setComId(_id);
+    }
+
+    window.addEventListener('click', () => fetch());
+    window.addEventListener("load", () => fetch())
+    if (cmoId === "") {
+      fetch();
+    }
+    fetch();
+  }, [cmoId, setComId])
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigation />}>
             <Route index element={<Home />} />
-            <Route path='/p1' element={<P1 />} />
-            <Route path='/p2' element={<P2 />} />
+            {
+              cmoId === "" ? <></> :
+                <Route path={`com-${cmoId}`} element={<ComDcos _page_id={`${cmoId}`} />} />
+            }
           </Route>
         </Routes>
       </BrowserRouter>
