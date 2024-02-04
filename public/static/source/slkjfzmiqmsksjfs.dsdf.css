@@ -1,0 +1,31 @@
+@media screen and (max-width: 800px) {
+    .nav-icon {
+        width: 25%;
+    }
+
+    .doc-pages {
+        width: 75% !important;
+    }
+
+    .doc-uploads {
+        width: auto;
+        padding: 0px !important;
+        position: absolute !important;
+        border: none !important;
+        bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 1040px) and (min-width: 800px) {
+    .nav-icon {
+        width: 10%;
+    }
+
+    .doc-pages {
+        width: 60% !important;
+    }
+
+    .doc-uploads {
+        width: 30%;
+    }
+}
