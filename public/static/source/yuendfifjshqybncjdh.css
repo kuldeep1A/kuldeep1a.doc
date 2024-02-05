@@ -110,3 +110,15 @@ iframe {
         scrollbar-width: none !important;
     }
 }
+
+.onlylogin {
+    width: 30%;
+    margin: auto;
+}
+
+#email, #createEmail {
+    margin-left: 28px;
+}
+.signOut {
+    margin-left: 10px;
+}

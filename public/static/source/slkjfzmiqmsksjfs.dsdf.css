@@ -1,4 +1,4 @@
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 860px) {
     .nav-icon {
         width: 25%;
     }
@@ -13,6 +13,14 @@
         position: absolute !important;
         border: none !important;
         bottom: 10px;
+    }
+
+    .onlylogin {
+        width: auto;
+        padding: 0px !important;
+        position: absolute !important;
+        border: none !important;
+        bottom: 10px !important;
     }
 }
 

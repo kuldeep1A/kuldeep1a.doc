@@ -1,5 +1,6 @@
 import { updateDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth"
 export const fetchComID = async (): Promise<string> => {
     const comIdC = "ComID";
     let currID = ''
@@ -86,3 +87,30 @@ export const addedLink = async (_link: any): Promise<void> => {
     }
 }
 
+export const signInUser = async (email: string, password: string): Promise<void> => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            window.location.reload()
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error("error code: ", errorCode)
+            console.error("error message: ", errorMessage)
+        });
+}
+export const authState = async () => {
+    const auth = getAuth();
+    const currUser = auth.currentUser;
+    return currUser;
+}
+
+export const signOutUser = async (): Promise<void> => {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+        window.location.reload()
+    }).catch((error) => {
+        console.error("error: ", error)
+    });
+}
