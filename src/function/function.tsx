@@ -22,13 +22,24 @@ export const addComId = async (_id: string): Promise<void> => {
     }
 }
 
+export const fetchIsVerified = async (): Promise<boolean> => {
+    let conf = false
+    const countCollection = "IframesCounts"
+    try {
+        const countRef = doc(db, countCollection, "hEedHPYfprSp0rO4PtZW")
+        conf = (await getDoc(countRef)).get("isVerified")
+    } catch (error) {
+        console.error("Fetch count errro: ", error)
+    }
+    return conf;
+}
+
 export const pageCount = async (): Promise<number> => {
     let currCount = 0
     const countCollection = "IframesCounts"
     try {
         const countRef = doc(db, countCollection, "hEedHPYfprSp0rO4PtZW")
         currCount = (await getDoc(countRef)).get("count")
-
     } catch (error) {
         console.error("Fetch count errro: ", error)
     }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { addedLink } from "../function/function";
-import { pageCount } from "../function/function";
-import { addComId } from "../function/function";
+import { addedLink, pageCount, addComId, fetchIsVerified } from "../function/function";
+
 export default function Navigation() {
     const [isHome, setHome] = useState(true);
     const [iframeLink, setIframeLink] = useState("")
     const [pages, setPages] = useState(0)
+    const [isVerified, setIsVerified] = useState(false)
     const handleClick: React.MouseEventHandler<HTMLInputElement> = async (event) => {
         await addedLink(iframeLink);
     };
@@ -17,7 +17,10 @@ export default function Navigation() {
     useEffect(() => {
         const fetchData = async () => {
             const pages: number = await pageCount();
+            const _isVerified: boolean = await fetchIsVerified();
+            setIsVerified(_isVerified)
             setPages(pages)
+            console.log("conf: ", isVerified)
         }
         if (window.location.pathname === "/") {
             setHome(true)
@@ -33,7 +36,7 @@ export default function Navigation() {
         })
 
         fetchData();
-    }, [isHome, setHome])
+    }, [isHome, setHome, setIsVerified, isVerified])
     return (
         <div className="main">
             <div className="nav">
@@ -52,13 +55,15 @@ export default function Navigation() {
                         </div>
                     </div>
                     {
-                        !isHome ? <></> : <div className="doc-uploads">
-                            <div className="submit">
-                                <div><label htmlFor="linkIframe">Publish Link</label></div>
-                                <div><input type="text" title="Link" id="linkIframe" value={iframeLink} required onChange={(e) => setIframeLink(e.target.value)} placeholder="Publish Link" /></div>
-                                <div><input type="submit" onClick={handleClick} /></div>
+                        !isHome ? <></> : isVerified ?
+                            <div className="doc-uploads">
+                                <div className="submit">
+                                    <div><label htmlFor="linkIframe">Publish Link</label></div>
+                                    <div><input type="text" title="Link" id="linkIframe" value={iframeLink} required onChange={(e) => setIframeLink(e.target.value)} placeholder="Publish Link" /></div>
+                                    <div><input type="submit" onClick={handleClick} /></div>
+                                </div>
                             </div>
-                        </div>
+                            : <></>
                     }
                 </div >
                 <hr />

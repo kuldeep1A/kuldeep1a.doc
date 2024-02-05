@@ -55,8 +55,9 @@ a {
     margin-right: 10px;
 
     span {
+        height: 0px;
         position: absolute;
-        top: -30px;
+        top: -32px;
         left: 10px;
     }
 
@@ -102,4 +103,10 @@ a {
     width: 90%;
     height: 100vh;
     margin: auto;
+}
+
+iframe {
+    html {
+        scrollbar-width: none !important;
+    }
 }
