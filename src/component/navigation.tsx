@@ -1,13 +1,12 @@
 import React, { useEffect, ChangeEvent, useState, useRef } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { signOutUser, signInUser, addedLink, pageCount, addComId, fetchIsVerified, authState } from "../function/function";
+import { signOutUser, signInUser, addedLink, pageCount, addComId, authState } from "../function/function";
 import { User } from "firebase/auth";
 
 export default function Navigation() {
     const [isHome, setHome] = useState(true);
     const [iframeLink, setIframeLink] = useState("")
     const [pages, setPages] = useState(0)
-    const [isVerified, setIsVerified] = useState(false)
     var _authState = useRef<User | null>(null);
     const [authCheck, setAuthCheck] = useState<User | null>(null)
     const [email, setEmail] = useState("")
@@ -30,10 +29,8 @@ export default function Navigation() {
     useEffect(() => {
         const fetchData = async () => {
             const pages: number = await pageCount();
-            const _isVerified: boolean = await fetchIsVerified();
             const newAuthState = await authState();
             setAuthCheck(newAuthState)
-            setIsVerified(_isVerified)
             setPages(pages)
         }
         if (window.location.pathname === "/") {
@@ -49,7 +46,7 @@ export default function Navigation() {
             }
         })
         fetchData();
-    }, [isHome, setHome, setIsVerified, isVerified, _authState])
+    }, [isHome, setHome, _authState])
     return (
         <div className="main">
             <div className="nav">

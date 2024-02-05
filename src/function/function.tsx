@@ -1,6 +1,7 @@
 import { updateDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth"
+
 export const fetchComID = async (): Promise<string> => {
     const comIdC = "ComID";
     let currID = ''
@@ -21,18 +22,6 @@ export const addComId = async (_id: string): Promise<void> => {
     } catch (error) {
         console.error("add errro: ", error)
     }
-}
-
-export const fetchIsVerified = async (): Promise<boolean> => {
-    let conf = false
-    const countCollection = "IframesCounts"
-    try {
-        const countRef = doc(db, countCollection, "hEedHPYfprSp0rO4PtZW")
-        conf = (await getDoc(countRef)).get("isVerified")
-    } catch (error) {
-        console.error("Fetch count errro: ", error)
-    }
-    return conf;
 }
 
 export const pageCount = async (): Promise<number> => {
@@ -100,6 +89,7 @@ export const signInUser = async (email: string, password: string): Promise<void>
             console.error("error message: ", errorMessage)
         });
 }
+
 export const authState = async () => {
     const auth = getAuth();
     const currUser = auth.currentUser;
