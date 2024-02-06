@@ -79,7 +79,7 @@ export const addedLink = async (_link: any): Promise<void> => {
 export const signInUser = async (email: string, password: string): Promise<void> => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
+        .then((user) => {
             window.location.reload()
         })
         .catch((error) => {
@@ -90,10 +90,10 @@ export const signInUser = async (email: string, password: string): Promise<void>
         });
 }
 
-export const authState = async () => {
+export const authState = async (): Promise<boolean | undefined> => {
     const auth = getAuth();
     const currUser = auth.currentUser;
-    return currUser;
+    return currUser?.emailVerified;
 }
 
 export const signOutUser = async (): Promise<void> => {

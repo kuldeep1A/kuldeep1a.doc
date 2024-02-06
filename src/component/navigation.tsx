@@ -1,20 +1,20 @@
-import React, { useEffect, ChangeEvent, useState, useRef } from "react";
+import React, { useEffect, ChangeEvent, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { signOutUser, signInUser, addedLink, pageCount, addComId, authState } from "../function/function";
-import { User } from "firebase/auth";
 
 export default function Navigation() {
     const [isHome, setHome] = useState(true);
     const [iframeLink, setIframeLink] = useState("")
     const [pages, setPages] = useState(0)
-    var _authState = useRef<User | null>(null);
-    const [authCheck, setAuthCheck] = useState<User | null>(null)
+    const [emailVerified, setEmailVerified] = useState<boolean | undefined>(false)
     const [email, setEmail] = useState("")
     const [pass, setPass] = useState("")
     const signIn = async () => {
         if (email !== "" && pass !== "") {
             await signInUser(email, pass);
         }
+        const newAuthState = await authState();
+        setEmailVerified(newAuthState)
     }
     const handleClick: React.MouseEventHandler<HTMLInputElement> = async (event) => {
         await addedLink(iframeLink);
@@ -29,9 +29,12 @@ export default function Navigation() {
     useEffect(() => {
         const fetchData = async () => {
             const pages: number = await pageCount();
-            const newAuthState = await authState();
-            setAuthCheck(newAuthState)
             setPages(pages)
+        }
+
+        const verified = async () => {
+            const newAuthState = await authState();
+            setEmailVerified(newAuthState)
         }
         if (window.location.pathname === "/") {
             setHome(true)
@@ -44,9 +47,15 @@ export default function Navigation() {
             } else {
                 setHome(false)
             }
+            verified()
         })
+
+        window.addEventListener("load", () => {
+            verified()
+        })
+        verified()
         fetchData();
-    }, [isHome, setHome, _authState])
+    }, [isHome, setHome, emailVerified, setEmailVerified])
     return (
         <div className="main">
             <div className="nav">
@@ -65,7 +74,7 @@ export default function Navigation() {
                         </div>
                     </div>
                     {
-                        !isHome ? <></> : authCheck !== null ?
+                        !isHome ? <></> : emailVerified ?
                             <div className="doc-uploads">
                                 <div className="submit">
                                     <div><label htmlFor="linkIframe">Publish Link</label></div>
